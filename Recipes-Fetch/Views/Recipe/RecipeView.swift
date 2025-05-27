@@ -11,7 +11,6 @@ import SwiftUI
 struct RecipeView: View {
     @State private var vm = RecipesViewModel()
     
-    let monitor = NWPathMonitor()
     
     var body: some View {
         NavigationStack {
@@ -78,26 +77,18 @@ struct RecipeView: View {
         List {
             ForEach(searchableRecipeResults, id: \.id) { meal in
                 VStack(alignment: .leading) {
-                    AsyncImage(url: URL(string: meal.photo)) { phase in
-                        switch phase {
-                        case .empty:
-                            ProgressView()
-                        case .success(let image):
-                            image
-                                .resizable()
-                                .frame(width: 350, height: 250)
-                            
-                        case .failure(let error):
-                            Text("Failed")
-                        @unknown default:
-                            Text("Unknown Error")
-                        }
+                    if let image = vm.networkManager.getCachedImage(for: meal) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .frame(width: 350, height: 250)
+                            .clipShape(RoundedRectangle(cornerRadius: 15))
+                        
+                        Text(meal.name)
+                        Text(meal.cuisine)
+                            .foregroundStyle(.secondary)
+                    } else {
+                        ProgressView()
                     }
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
-                    
-                    Text(meal.name)
-                    Text(meal.cuisine)
-                        .foregroundStyle(.secondary)
                 }
             }
             .listRowSeparator(.hidden)

@@ -10,6 +10,7 @@ import Foundation
 enum RFError: String, Error {
     case invalidURL = "This URL is not valid. Please try again.",
     invalidResponse = "Invalide response from the server. Please try again.",
-    malFormedJSON = "The list of recipes is incomplete."
+    malFormedJSON = "The list of recipes is incomplete.",
+    invalidData = "Image data is not valid."
     
 }
