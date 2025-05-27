@@ -12,18 +12,22 @@ class NetworkManager {
     
     var meals: [Meals] = []
     
-    func fetchRecipes() async throws -> [Meals] {
-        guard let url = URL(string: RecipeEndpoints.allRecipes.rawValue) else { return [] }
+    func fetchRecipes(with urlType: String? = nil) async throws -> [Meals] {
+        guard let url = URL(string: urlType ?? RecipeEndpoints.malformedRecipes.rawValue) else {
+            throw RFError.invalidURL
+        }
         
         let (data, response) = try await URLSession.shared.data(from: url)
         
-        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else { return [] }
+        guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            throw RFError.invalidResponse
+        }
         
         do {
             let recipes = try JSONDecoder().decode(Recipes.self, from: data)
             meals = recipes.recipes
         } catch {
-            print(error)
+            throw RFError.malFormedJSON
         }
         return meals
     }
