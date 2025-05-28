@@ -12,6 +12,7 @@ class NetworkManager {
     static var shared = NetworkManager()
     
     init() {}
+    
     var meals: [Meals] = []
     
     var imageCache: NSCache<NSString, UIImage> = {

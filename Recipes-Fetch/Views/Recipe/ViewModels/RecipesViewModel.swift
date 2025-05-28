@@ -12,7 +12,7 @@ class RecipesViewModel {
     var dataError: RFError?
     var hasError = false
     
-    var networkManager = NetworkManager()
+    var networkManager = NetworkManager()    
     var meals: [Meals] = []
     
     var cuisineList: [String] = []    
