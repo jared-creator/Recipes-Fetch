@@ -7,6 +7,7 @@
 
 import Foundation
 
+//Custom errors RF stands for Recipe Fetch, abbreviation of project name
 enum RFError: String, Error {
     case invalidURL = "This URL is not valid. Please try again.",
     invalidResponse = "Invalide response from the server. Please try again.",

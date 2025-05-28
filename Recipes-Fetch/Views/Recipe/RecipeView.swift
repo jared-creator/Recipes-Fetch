@@ -155,6 +155,7 @@ struct RecipeView: View {
         }
     }
     
+    //List of all cuisine types, filter recipe list
     private func populateCuisineList() {
         for i in 0..<vm.meals.count {
             if !vm.cuisineList.contains(vm.meals[i].cuisine) {

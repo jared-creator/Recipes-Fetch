@@ -19,8 +19,9 @@ class NetworkManager {
         let cache = NSCache<NSString, UIImage>()
         return cache
     }()
-    
+        
     func fetchRecipes(with urlType: String? = nil) async throws -> [Meals] {
+        //Constants for url endpoints in "RecipeEndpoints" file
         guard let url = URL(string: urlType ?? RecipeEndpoints.allRecipes.rawValue) else {
             throw RFError.invalidURL
         }
@@ -34,6 +35,7 @@ class NetworkManager {
         do {
             let recipes = try JSONDecoder().decode(Recipes.self, from: data)
             meals = recipes.recipes
+            // cache all images
             for i in 0..<meals.count {
                 try await cacheImage(from: meals[i])
             }
